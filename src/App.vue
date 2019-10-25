@@ -28,7 +28,7 @@ let getAge = function() {
 export default {
   name: 'app',
   data: () => ({
-    name: "evan",
+    name: 'evan',
     age: ''
   }),
   components: {
@@ -40,7 +40,8 @@ export default {
   methods: {
     get(){
       // this.age = this.getAge.data.getAge.age;
-      console.log(getAge.data)
+      console.log(this.getAge)
+      this.age = this.getAge.age
       // this.age = this.getAge.age;
     }
   }
