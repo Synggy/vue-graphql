@@ -11,7 +11,7 @@ let typeDefs = gql`
     """
     根据名字查询年龄
     """
-    getAge(name: String!): User
+    person(name: String): User
   }
 
   type User {
@@ -19,13 +19,10 @@ let typeDefs = gql`
     age: Int
   }
 `;
-
+let person = (_, { name }) => data.find(x => x.name === name);
 let resolvers = {
   Query: {
-    getAge: function(_, args) {
-      let user = data.find(x => x.name === args.name)
-      return user
-    }
+    person
   }
 };
 

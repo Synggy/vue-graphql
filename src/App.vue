@@ -1,60 +1,44 @@
 <template>
   <div id="app">
-    <input type="text" v-model="name">
-    <button @click="get">click me</button>
-    <span>{{ age }}</span>
-    <!-- <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <div>
+      <input type="text" v-model="name">
+    <button @click="getAge">click me</button>
+    </div>
+    <div>
+      <span>{{ age }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-// import HelloWorld from './components/HelloWorld.vue'
 import gql from 'graphql-tag'
 
-let name = ''
 let getAge = function() {
   let query = gql`
-    query {
-      getAge(name: "${ this.name }"){
-        age
-      }
-    }`;
-  return {
-    query
-  };
-}
+   query ($name: String!) {
+    person(name: $name) {
+      name
+      age
+    }
+  }`;
+  let variables = {
+    name: this.name
+  }
+  this.$apollo.query({
+    query,
+    variables,
+  })
+  .then(x => this.age = x.data.person.age)
+};
 export default {
   name: 'app',
   data: () => ({
-    name: 'evan',
+    name: '',
     age: ''
   }),
-  components: {
-    // HelloWorld
-  },
-  apollo: {
-    getAge
-  },
   methods: {
-    get(){
-      // this.age = this.getAge.data.getAge.age;
-      console.log(this.getAge)
-      this.age = this.getAge.age
-      // this.age = this.getAge.age;
-    }
+    getAge
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
